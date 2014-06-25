@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- /** * http://github.com/jun85664396 */ -->
+<mapper namespace="com.pil.shorten.ShortenURL">
+	<insert id="insert_url" parameterType="com.pil.shorten.ShortenURLVO">
+		INSERT INTO shortenURL(url,ip,timestamp) VALUES(#{url},#{ip},now())
+		<selectKey resultType="long" order="AFTER" keyProperty="idx">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<select id="select_idx" parameterType="com.pil.shorten.ShortenURLVO"
+		resultType="com.pil.shorten.ShortenURLVO">
+		SELECT idx FROM shortenURL where url = #{url}
+	</select>
+	<select id="select_url" parameterType="com.pil.shorten.ShortenURLVO"
+		resultType="com.pil.shorten.ShortenURLVO">
+		SELECT url FROM shortenURL where idx = #{idx}
+	</select>
+</mapper>
